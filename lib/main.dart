@@ -15,11 +15,18 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
+  @override
+  _LoginState createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+  bool isVisible = true;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomPadding: false,
         extendBodyBehindAppBar: true,
         appBar: PreferredSize(
             child: AppBar(
@@ -97,8 +104,13 @@ class Login extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 50.0),
                       child: TextField(
                         decoration: InputDecoration(
-                          suffix:
-                              GestureDetector(child: Text('Forgot password?')),
+                          suffix: GestureDetector(
+                              child: Text(
+                            'Forgot password?',
+                            style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                color: Colors.white.withOpacity(0.5)),
+                          )),
                           hintStyle:
                               TextStyle(color: Colors.white, fontSize: 12.0),
                           hintText: 'Password',
@@ -130,8 +142,7 @@ class Login extends StatelessWidget {
                     SizedBox(height: 20),
                     FloatingActionButton.extended(
                         elevation: 0.0,
-                        backgroundColor:
-                            Color(0xff353759).withBlue(125).withOpacity(0.6),
+                        backgroundColor: Color(0xff2E2F4D),
                         onPressed: null,
                         label: Padding(
                           padding: const EdgeInsets.symmetric(
@@ -162,40 +173,154 @@ class Login extends StatelessWidget {
                 ),
               ),
             ),
-            DraggableScrollableSheet(
-              initialChildSize: 0.15,
-              minChildSize: 0.1,
-              maxChildSize: 0.82,
-              builder: (
-                BuildContext context,
-                ScrollController scrollController,
-              ) {
-                return Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(50.0),
-                        topRight: Radius.circular(50.0),
-                      ),
-                      color: Colors.white),
-                  child: ListView.builder(
-                    controller: scrollController,
-                    itemCount: 1,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                          child: Column(
-                        children: [
-                          IconButton(
-                            icon: Icon(Icons.arrow_forward_ios),
-                            onPressed: () {},
-                          ),
-                          Text('Sign Up')
-                        ],
-                      ));
-                    },
-                  ),
-                );
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  isVisible = !isVisible;
+                });
               },
-            ),
+              child: DraggableScrollableSheet(
+                maxChildSize: 0.82,
+                minChildSize: 0.15,
+                initialChildSize: 0.15,
+                builder: (context, scrollController) {
+                  return Container(
+                    child: SingleChildScrollView(
+                      controller: scrollController,
+                      child: Visibility(
+                        visible: isVisible,
+                        child: Column(
+                          children: [
+                            Icon(
+                              Icons.keyboard_arrow_up,
+                            ),
+
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                      'Sign up',
+                                      style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 15.0,
+                                        color: Color(0xff353759),
+                                      ),
+                                    ),
+                            ),
+                          ],
+                        ),
+                        replacement: Column(
+                          children: [
+                            IconButton(
+                              icon: Icon(
+                                Icons.minimize,
+                                size: 25.0,
+                                color: Color(0xff353759),
+                              ),
+                              onPressed: null,
+                            ),
+                            Align(
+                                alignment: Alignment.topLeft,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 50.0, vertical: 15.0),
+                                  child: Text(
+                                    'Create \naccount',
+                                    style: TextStyle(
+                                        color: Color(0xff353759),
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w900,
+                                        fontSize: 15.0),
+                                  ),
+                                )),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 50.0),
+                              child: TextField(
+                                decoration: InputDecoration(
+                                  suffix: Icon(
+                                    Icons.perm_identity,
+                                  ),
+                                  hintStyle: TextStyle(
+                                      color: Color(0xff353759), fontSize: 12.0),
+                                  hintText: 'Name',
+                                ),
+                                style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.white),
+                              ),
+                            ),
+                            SizedBox(height: 20),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 50.0),
+                              child: TextField(
+                                decoration: InputDecoration(
+                                  suffix: Icon(
+                                    Icons.alternate_email,
+                                  ),
+                                  hintStyle: TextStyle(
+                                      color: Color(0xff353759), fontSize: 12.0),
+                                  hintText: 'E-mail',
+                                ),
+                                style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.white),
+                              ),
+                            ),
+                            SizedBox(height: 20),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 50.0),
+                              child: TextField(
+                                decoration: InputDecoration(
+                                  suffix: Icon(
+                                    Icons.vpn_key,
+                                  ),
+                                  hintStyle: TextStyle(
+                                      color: Color(0xff353759), fontSize: 12.0),
+                                  hintText: 'Password',
+                                ),
+                                style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.white),
+                                obscureText: true,
+                              ),
+                            ),
+                            SizedBox(height: 70.0),
+                            FloatingActionButton.extended(
+                                backgroundColor: Color(0xff353759),
+                                onPressed: null,
+                                label: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 90.0, vertical: 20.0),
+                                  child: Text(
+                                    'Sign up',
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 12.0,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                )),
+                          ],
+                        ),
+                      ),
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(50.0),
+                          topRight: Radius.circular(50.0)),
+                    ),
+                  );
+                },
+              ),
+            )
           ],
         ),
       ),
